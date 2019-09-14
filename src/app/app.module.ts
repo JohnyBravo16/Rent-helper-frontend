@@ -12,6 +12,10 @@ import { ErrorInterceptor } from './error-interceptor';
 import { ErrorComponent } from './error/error.component';
 import { AngularMaterialModule } from './angular-material.module';
 import { PostsModule } from './posts/posts.module';
+import {BarRatingModule} from 'ngx-bar-rating';
+import { RatingModule } from 'ng-starrating';
+
+
 
 @NgModule({
   declarations: [
@@ -26,7 +30,9 @@ import { PostsModule } from './posts/posts.module';
     AppRoutingModule,
     TextFieldModule,
     AngularMaterialModule,
-    PostsModule
+    PostsModule,
+    BarRatingModule,
+    RatingModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},

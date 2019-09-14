@@ -7,6 +7,8 @@ import { Post } from '../post.model';
 import { mimeType } from './mime-type.validator';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
+import { StarRatingComponent } from 'ng-starrating';
+
 
 @Component({
   selector: 'app-post-create',
@@ -23,6 +25,7 @@ export class PostCreateComponent implements OnInit, OnDestroy{
   private mode = 'create';
   private postId: string;
   private authStatusSub: Subscription;
+  private rate: number;
 
   constructor(
     public postsService: PostsService,
@@ -121,6 +124,11 @@ export class PostCreateComponent implements OnInit, OnDestroy{
       );
     }
     this.form.reset();
+  }
+
+  onRate($event: {oldValue: number, newValue: number, starRating: StarRatingComponent}) {
+    this.rate = $event.newValue;
+    console.log(this.rate);
   }
 
   ngOnDestroy() {

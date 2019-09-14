@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { RatingModule } from 'ng-starrating';
 
 import {
   MatInputModule,
@@ -27,7 +28,8 @@ import {
     MatProgressSpinnerModule,
     MatPaginatorModule,
     MatDialogModule,
-    MatDividerModule
+    MatDividerModule,
+    RatingModule
   ]
 })
 export class AngularMaterialModule {}
