@@ -25,7 +25,7 @@ export class PostCreateComponent implements OnInit, OnDestroy{
   private mode = 'create';
   private postId: string;
   private authStatusSub: Subscription;
-  private rate: number;
+  rating: string;
 
   constructor(
     public postsService: PostsService,
@@ -51,6 +51,9 @@ export class PostCreateComponent implements OnInit, OnDestroy{
       address: new FormControl(null, {
         validators: [Validators.required]
       }),
+      rating: new FormControl(null, {
+        validators: [Validators.required]
+      }),
       image: new FormControl(null, {
         validators: [Validators.required],
         asyncValidators: [mimeType]
@@ -69,6 +72,7 @@ export class PostCreateComponent implements OnInit, OnDestroy{
             title: postData.title,
             content: postData.content,
             address: postData.address,
+            rating: postData.rating,
             imagePath: postData.imagePath,
             creator: postData.creator
           };
@@ -76,9 +80,11 @@ export class PostCreateComponent implements OnInit, OnDestroy{
           this.form.setValue({
             title: this.post.title,
             content: this.post.content,
-            address: this.post.content,
+            address: this.post.address,
+            rating: this.post.rating,
             image: this.post.imagePath
           });
+          this.rating = this.post.rating
         });
       } else {
         this.mode = 'create';
@@ -112,6 +118,7 @@ export class PostCreateComponent implements OnInit, OnDestroy{
         this.form.value.title,
         this.form.value.content,
         this.form.value.address,
+        this.form.value.rating,
         this.form.value.image
       );
     } else {
@@ -120,6 +127,7 @@ export class PostCreateComponent implements OnInit, OnDestroy{
         this.form.value.title,
         this.form.value.content,
         this.form.value.address,
+        this.form.value.rating,
         this.form.value.image
       );
     }
@@ -127,8 +135,9 @@ export class PostCreateComponent implements OnInit, OnDestroy{
   }
 
   onRate($event: {oldValue: number, newValue: number, starRating: StarRatingComponent}) {
-    this.rate = $event.newValue;
-    console.log(this.rate);
+    const ratingNumber = $event.newValue;
+    this.rating = ratingNumber.toString();
+    this.form.get('rating').setValue(this.rating);
   }
 
   ngOnDestroy() {

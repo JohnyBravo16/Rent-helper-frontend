@@ -12,13 +12,6 @@ import { AuthService } from 'src/app/auth/auth.service';
   styleUrls: ['./post-list.component.css']
 })
 export class PostListComponent implements OnInit, OnDestroy{
-  /*
-  Posts = [
-    {title: 'Pierwszy komentarz', content: 'Treść pierwszego komentarza..'},
-    {title: 'Drugi komentarz', content: 'Treść drugiego komentarza..'},
-    {title: 'Trzeci komentarz', content: 'Treść trzeciego komentarza..'}
-  ];
-  */
  posts: Post[] = [];
  isLoading = false;
  totalPosts = 0;
@@ -27,6 +20,7 @@ export class PostListComponent implements OnInit, OnDestroy{
  currentPage = 1;
  userIsAuthenticated = false;
  userId: string;
+ rating: string;
 
  private postsSub: Subscription;
  private authStatusSub: Subscription;

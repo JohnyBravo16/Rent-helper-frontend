@@ -4,6 +4,7 @@ export interface Post {
   title: string;
   address: string;
   content: string;
+  rating: string;
   imagePath: string;
   creator: string;
 }
