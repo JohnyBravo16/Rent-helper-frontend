@@ -4,14 +4,6 @@
     <mat-form-field>
       <input
         matInput
-        placeholder="Nick"
-        type="text"
-        formControlName="title">
-      <mat-error *ngIf="form.get('title').invalid">Nie podano Nicku</mat-error>
-    </mat-form-field>
-    <mat-form-field>
-      <input
-        matInput
         placeholder="Adres mieszkania/pokoju"
         type="text"
         formControlName="address">
@@ -27,14 +19,6 @@
       <mat-error *ngIf="form.get('content').invalid">Nie podano treści komentarza</mat-error>
     </mat-form-field>
     <mat-form-field>
-      <input
-        matInput
-        placeholder="Ocena"
-        type="text"
-        formControlName="rating"
-        readonly="true">
-        <mat-error *ngIf="form.get('rating').invalid">Nie oceniono</mat-error>
-    </mat-form-field>
     <star-rating
       [value]="rating"
       checkedcolor="red"
@@ -42,21 +26,27 @@
       size="40px"
       readonly="false"
       (rate)="onRate($event)">"
-  </star-rating>
-  <br>
-  <mat-divider></mat-divider>
-  <br>
-  <p *ngIf="this.rating > 0">Twoja ocena: {{ rating }}/5</p>
+    </star-rating>
+    <p *ngIf="rating > 0">Twoja ocena: {{ rating }}/5</p>
+    <div class="rate">
+      <input
+        matInput
+        type="text"
+        formControlName="rating"
+        readonly="true">
+        <mat-error *ngIf="form.get('rating').invalid">Nie oceniono</mat-error>
+      </div>
+    </mat-form-field>
+    <input type="file" #filePicker (change)="onImagePicked($event)">
+    <br>
+    <div class="image-preview" *ngIf="imagePreview !== '' && imagePreview && form.get('image').valid">
+      <img [src]="imagePreview" alt="form.value.title">
+    </div>
       <button mat-raised-button color="primary" type="submit" margin:50px>
-        Dodaj komentarz
+        Dodaj post
       </button>
-      <button mat-stroked-button type="button" type="button" (click)="filePicker.click()">
+      <button mat-stroked-button  type="button" (click)="filePicker.click()">
         Dodaj zdjęcie
       </button>
-      <input type="file" #filePicker (change)="onImagePicked($event)">
-      <br>
-      <div class="image-preview" *ngIf="imagePreview !== '' && imagePreview && form.get('image').valid">
-        <img [src]="imagePreview" alt="form.value.title">
-      </div>
-  </form>
+    </form>
 </mat-card>

@@ -101,6 +101,22 @@ exports.getPost = (req, res, next) => {
   });
 }
 
+// not finished
+exports.findPosts = (req, res, next) => {
+  Post.find({ address: 'req.params.address' }).then(post => {
+    if (post) {
+      res.status(200).json(post);
+    } else {
+      res.status(404).json({message: 'Nie znaleziono postów'});
+    };
+  }).catch(error => {
+    console.log(req.params.address);
+    res.status(500).json({
+      message: 'Błąd odczytu danych'
+    });
+  });
+}
+
 exports.deletePost = (req, res, next) => {
   Post.deleteOne({_id: req.params.id, creator: req.userData.userId})
   .then(result => {

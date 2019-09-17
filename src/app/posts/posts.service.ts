@@ -113,6 +113,18 @@ addPost(title: string, content: string, address: string, rating: string, image: 
       });
   }
 
+  findPosts(address: string) {
+    return this.http.get<{
+      _id: string;
+      title: string;
+      content: string;
+      address: string;
+      rating: string;
+      imagePath: string;
+      creator: string;
+    }>(BACKEND_URL + address);
+}
+
   deletePost(postId: string) {
     return this.http.delete(BACKEND_URL + postId);
   }

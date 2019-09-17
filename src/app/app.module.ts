@@ -12,9 +12,8 @@ import { ErrorInterceptor } from './error-interceptor';
 import { ErrorComponent } from './error/error.component';
 import { AngularMaterialModule } from './angular-material.module';
 import { PostsModule } from './posts/posts.module';
-import {BarRatingModule} from 'ngx-bar-rating';
+import { BarRatingModule } from 'ngx-bar-rating';
 import { RatingModule } from 'ng-starrating';
-
 
 
 @NgModule({
@@ -32,7 +31,9 @@ import { RatingModule } from 'ng-starrating';
     AngularMaterialModule,
     PostsModule,
     BarRatingModule,
-    RatingModule
+    RatingModule,
+    AngularMaterialModule,
+
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},

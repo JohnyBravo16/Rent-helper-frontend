@@ -26,6 +26,7 @@ export class PostCreateComponent implements OnInit, OnDestroy{
   private postId: string;
   private authStatusSub: Subscription;
   rating: string;
+  userEmail: string;
 
   constructor(
     public postsService: PostsService,
@@ -39,11 +40,13 @@ export class PostCreateComponent implements OnInit, OnDestroy{
     .subscribe(
       authStatus => {
         this.isLoading = false;
+        this.userEmail = this.authService.getUserEmail();
+        console.log(this.userEmail);
     });
     // reactive approach
     this.form = new FormGroup({
       title: new FormControl(null, {
-        validators: [Validators.required, Validators.minLength(3)]
+        //validators: [Validators.required, Validators.minLength(3)]
       }),
       content: new FormControl(null, {
         validators: [Validators.required]
@@ -82,15 +85,15 @@ export class PostCreateComponent implements OnInit, OnDestroy{
             content: this.post.content,
             address: this.post.address,
             rating: this.post.rating,
-            image: this.post.imagePath
+            image: ''
           });
-          this.rating = this.post.rating
+          this.rating = this.post.rating;
         });
-      } else {
-        this.mode = 'create';
-        this.postId = null;
-      }
-    });
+        } else {
+          this.mode = 'create';
+          this.postId = null;
+        }
+      });
   }
 
   onImagePicked(event: Event) {
@@ -114,13 +117,16 @@ export class PostCreateComponent implements OnInit, OnDestroy{
     this.isLoading = true;
     // check whether post is created or is edited
     if (this.mode === 'create') {
+      this.userEmail = this.authService.getUserEmail();
       this.postsService.addPost(
-        this.form.value.title,
+        //this.form.value.title,
+        this.userEmail,
         this.form.value.content,
         this.form.value.address,
         this.form.value.rating,
         this.form.value.image
       );
+      console.log(this.userEmail);
     } else {
       this.postsService.updatePost(
         this.postId,

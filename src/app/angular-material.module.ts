@@ -12,7 +12,7 @@ import {
   MatProgressSpinnerModule,
   MatPaginatorModule,
   MatDialogModule,
-  MatDividerModule
+  MatDividerModule,
 } from '@angular/material';
 
 @NgModule({
@@ -29,7 +29,7 @@ import {
     MatPaginatorModule,
     MatDialogModule,
     MatDividerModule,
-    RatingModule
+    RatingModule,
   ]
 })
 export class AngularMaterialModule {}

@@ -33,6 +33,11 @@ router.get(
   PostController.getPost
   );
 
+router.get(
+  "/:address",
+  PostController.findPosts
+  );
+
 router.delete(
   "/:id",
   checkAuth,

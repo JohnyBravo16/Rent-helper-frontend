@@ -20,10 +20,19 @@ mat-paginator {
 }
 
 .post-image img {
-  width: 100%;
+  display: block;
+  width: 50%;
   box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.mat-expansion-panel-header.mat-expanded {
+.searchButton {
+  margin-bottom: 30px;
+  margin-top: 30px;
+}
 
+mat-form-field,
+input {
+  width: 100%
 }
