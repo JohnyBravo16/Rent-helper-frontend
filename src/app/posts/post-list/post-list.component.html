@@ -7,11 +7,9 @@
       placeholder="Wyszukaj mieszkanie według adresu"
       type="text"
       formControlName="searchValue">
+      <mat-error *ngIf="formSearch.get('searchValue').invalid"></mat-error>
     </mat-form-field>
     <br>
-    <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
-        <mat-icon>close</mat-icon>
-    </button>
     <button
         mat-raised-button
         color="primary"
@@ -19,6 +17,14 @@
         margin:50px
         class="searchButton">
           Wyszukaj
+    </button>
+    <button
+      mat-raised-button
+      color="warning"
+      margin:50px
+      class="resetButton"
+      (click)="onReset">
+      Wyczyść
     </button>
   </form>
   <mat-spinner *ngIf="isLoading"></mat-spinner>

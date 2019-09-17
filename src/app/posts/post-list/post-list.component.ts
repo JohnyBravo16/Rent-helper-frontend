@@ -15,6 +15,7 @@ import { Router } from '@angular/router';
 })
 export class PostListComponent implements OnInit, OnDestroy{
  posts: Post[] = [];
+ posts2: Post[] = [];
  filteredPosts: Post[] = [];
  isLoading = false;
  totalPosts = 0;
@@ -48,7 +49,8 @@ export class PostListComponent implements OnInit, OnDestroy{
         this.isLoading = false;
         this.totalPosts = postData.postCount;
         this.posts = postData.posts;
-      });
+    });
+
     this.userIsAuthenticated = this.authService.getIsAuth();
     this.authStatusSub = this.authService
         .getAuthStatusListener()
@@ -68,40 +70,45 @@ export class PostListComponent implements OnInit, OnDestroy{
     this.postsService.findPosts(this.searchValue);
   }
 
+  onReset() {
+    this.postsService.getPosts(this.postsPerPage, this.currentPage);
+    this.postsSub = this.postsService.getPostUpdateListener()
+      .subscribe((postData: {posts: Post[], postCount: number}) => {
+        this.isLoading = false;
+        this.totalPosts = postData.postCount;
+        this.posts = postData.posts;
+    });
+    this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
+    this.router.navigate(['/']));
+  }
+
+
   onFilterPosts() {
-    this.isFiltered = true;
-    if (this.formSearch.get('searchValue').invalid) {
-      this.isFiltered = false;
-      console.log("OADHIAWODJ");
-      /*
+    this.isLoading = true;
+    if (!this.formSearch.get('searchValue').value) {
       this.postsService.getPosts(this.postsPerPage, this.currentPage);
       this.postsSub = this.postsService.getPostUpdateListener()
         .subscribe((postData: {posts: Post[], postCount: number}) => {
           this.isLoading = false;
           this.totalPosts = postData.postCount;
           this.posts = postData.posts;
-        });
-      */
+      });
       this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
         this.router.navigate(['/']));
-      return;
-    }
-
-    this.postsService.getPosts(this.numberFilteredPosts, this.currentPage);
-    this.postsSub = this.postsService.getPostUpdateListener()
-      .subscribe((postData: {posts: Post[], postCount: number}) => {
-        this.isLoading = false;
-        this.totalPosts = postData.postCount;
-        this.posts = postData.posts;
+    } else {
+      this.isLoading = true;
+      this.postsService.getPosts(this.numberFilteredPosts, this.currentPage);
+      this.postsSub = this.postsService.getPostUpdateListener()
+        .subscribe((postData: {posts: Post[], postCount: number}) => {
+          this.isLoading = false;
+          this.totalPosts = postData.postCount;
+          this.posts = postData.posts.filter(el => {
+            return el.address === this.formSearch.get('searchValue').value;
+          });
       });
-
-    this.filteredPosts = this.posts.filter(el => {
-      return el.address === this.formSearch.value.searchValue;
-    });
-
-    this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
-    this.router.navigate(['/']));
-
+      this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
+        this.router.navigate(['/']));
+    }
   }
 
   onChangedPage(pageData: PageEvent) {
