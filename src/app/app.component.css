@@ -1,4 +1,14 @@
 main {
-  width: 70%;
-  margin: 1rem auto
+  width: 60%;
+  margin: 1rem auto;
+  background-color: lightgray;
 }
+
+body {
+  background-color: lightgray;
+}
+
+app-header {
+  background-color: lightgray;
+}
+

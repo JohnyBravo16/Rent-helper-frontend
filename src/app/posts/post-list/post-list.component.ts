@@ -15,11 +15,12 @@ import { Router } from '@angular/router';
 })
 export class PostListComponent implements OnInit, OnDestroy{
  posts: Post[] = [];
- posts2: Post[] = [];
+ mainPosts: Post[] = [];
  filteredPosts: Post[] = [];
  isLoading = false;
  totalPosts = 0;
  postsPerPage = 2;
+ mainPostsPerPage: number;
  pageSizeOptions = [1, 2, 5, 10];
  currentPage = 1;
  userIsAuthenticated = false;
@@ -48,7 +49,9 @@ export class PostListComponent implements OnInit, OnDestroy{
       .subscribe((postData: {posts: Post[], postCount: number}) => {
         this.isLoading = false;
         this.totalPosts = postData.postCount;
+        this.mainPostsPerPage = postData.postCount;
         this.posts = postData.posts;
+        this.mainPosts = [...this.posts];
     });
 
     this.userIsAuthenticated = this.authService.getIsAuth();
@@ -71,43 +74,35 @@ export class PostListComponent implements OnInit, OnDestroy{
   }
 
   onReset() {
-    this.postsService.getPosts(this.postsPerPage, this.currentPage);
+    this.isFiltered = false;
+    this.isLoading = true;
+    this.formSearch.get('searchValue').setValue('');
+    this.postsService.getPosts(this.postsPerPage, 1);
     this.postsSub = this.postsService.getPostUpdateListener()
       .subscribe((postData: {posts: Post[], postCount: number}) => {
         this.isLoading = false;
         this.totalPosts = postData.postCount;
+        this.mainPostsPerPage = postData.postCount;
         this.posts = postData.posts;
     });
-    this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
-    this.router.navigate(['/']));
   }
 
 
   onFilterPosts() {
-    this.isLoading = true;
     if (!this.formSearch.get('searchValue').value) {
-      this.postsService.getPosts(this.postsPerPage, this.currentPage);
-      this.postsSub = this.postsService.getPostUpdateListener()
-        .subscribe((postData: {posts: Post[], postCount: number}) => {
-          this.isLoading = false;
-          this.totalPosts = postData.postCount;
-          this.posts = postData.posts;
-      });
-      this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
-        this.router.navigate(['/']));
+      return;
     } else {
+      this.isFiltered = true;
       this.isLoading = true;
       this.postsService.getPosts(this.numberFilteredPosts, this.currentPage);
       this.postsSub = this.postsService.getPostUpdateListener()
         .subscribe((postData: {posts: Post[], postCount: number}) => {
           this.isLoading = false;
-          this.totalPosts = postData.postCount;
+          this.posts = [];
           this.posts = postData.posts.filter(el => {
             return el.address === this.formSearch.get('searchValue').value;
           });
       });
-      this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
-        this.router.navigate(['/']));
     }
   }
 

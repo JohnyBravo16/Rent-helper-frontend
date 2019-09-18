@@ -6,7 +6,9 @@
         matInput
         placeholder="Adres mieszkania/pokoju"
         type="text"
-        formControlName="address">
+        formControlName="address"
+        autofocus
+        tabindex="true">
         <mat-error *ngIf="form.get('address').invalid">Nie wpisano adresu</mat-error>
     </mat-form-field>
     <mat-form-field>
