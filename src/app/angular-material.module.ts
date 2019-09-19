@@ -13,6 +13,7 @@ import {
   MatPaginatorModule,
   MatDialogModule,
   MatDividerModule,
+  MatTooltipModule
 } from '@angular/material';
 
 @NgModule({
@@ -29,6 +30,7 @@ import {
     MatPaginatorModule,
     MatDialogModule,
     MatDividerModule,
+    MatTooltipModule,
     RatingModule,
   ]
 })
