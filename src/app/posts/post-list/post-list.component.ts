@@ -3,7 +3,7 @@ import { Subscription } from 'rxjs';
 
 import { Post } from '../post.model';
 import { PostsService } from '../posts.service';
-import { PageEvent } from '@angular/material';
+import { PageEvent, MatDialog } from '@angular/material';
 import { AuthService } from 'src/app/auth/auth.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -27,6 +27,7 @@ export class PostListComponent implements OnInit, OnDestroy{
  userId: string;
  rating: string;
  userEmail: string;
+ userNick: string;
  formSearch: FormGroup;
  searchValue = '';
  isFiltered = false;
@@ -38,7 +39,8 @@ export class PostListComponent implements OnInit, OnDestroy{
  constructor(
   public postsService: PostsService,
   private authService: AuthService,
-  public router: Router) {}
+  public router: Router,
+  public dialog: MatDialog) {}
 
   ngOnInit() {
     this.isLoading = true;

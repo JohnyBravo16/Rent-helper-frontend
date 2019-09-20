@@ -27,6 +27,7 @@ export class PostCreateComponent implements OnInit, OnDestroy{
   private authStatusSub: Subscription;
   rating: string;
   userEmail: string;
+  userNick: string;
 
   constructor(
     public postsService: PostsService,
@@ -40,8 +41,6 @@ export class PostCreateComponent implements OnInit, OnDestroy{
     .subscribe(
       authStatus => {
         this.isLoading = false;
-        this.userEmail = this.authService.getUserEmail();
-        console.log(this.userEmail);
     });
     // reactive approach
     this.form = new FormGroup({
@@ -117,10 +116,9 @@ export class PostCreateComponent implements OnInit, OnDestroy{
     this.isLoading = true;
     // check whether post is created or is edited
     if (this.mode === 'create') {
-      this.userEmail = this.authService.getUserEmail();
+      this.userNick = this.authService.getUserNick();
       this.postsService.addPost(
-        //this.form.value.title,
-        this.userEmail,
+        this.userNick,
         this.form.value.content,
         this.form.value.address,
         this.form.value.rating,

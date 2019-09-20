@@ -7,6 +7,7 @@ exports.createUser = (req, res, next) => {
   bcrypt.hash(req.body.password, 10)
     .then(hash => {
       const user = new User({
+        nick: req.body.nick,
         email: req.body.email,
         password: hash
       });
@@ -49,13 +50,14 @@ exports.userLogin = (req, res, next) => {
       }
       // create JSON Web Token, that lasts 1 hour
       const token = jwt.sign(
-        { email: fetchedUser.email, userId: fetchedUser._id },
+        { nick: fetchedUser.nick, email: fetchedUser.email, userId: fetchedUser._id },
         process.env.JWT_KEY,
         { expiresIn: '1h'}
         );
         res.status(200).json({
           token: token,
           expiresIn: 3600,
+          nick: fetchedUser.nick,
           userId: fetchedUser._id,
           email: fetchedUser.email,
           message: 'Zalogowano'

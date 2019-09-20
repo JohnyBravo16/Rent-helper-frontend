@@ -15,6 +15,7 @@ export class AuthService {
   private token: string;
   private tokenTimer: any;
   private userId: string;
+  private userNick: string;
   private userEmail: string;
   private authStatusListener = new Subject<boolean>();
 
@@ -40,8 +41,12 @@ export class AuthService {
      return this.userEmail;
    }
 
-  createUser(email: string, password: string) {
-    const authData: AuthData = {email: email, password: password};
+   getUserNick() {
+    return this.userNick;
+   }
+
+  createUser(nick: string, email: string, password: string) {
+    const authData: AuthData = {nick: nick, email: email, password: password};
     this.http
     .post(
       BACKEND_URL + '/signup',
@@ -54,9 +59,9 @@ export class AuthService {
     });
   }
 
-  login(email: string, password: string) {
-    const authData: AuthData = {email: email, password: password};
-    this.http.post<{ token: string, expiresIn: number, userId: string, email: string }>(BACKEND_URL + '/login', authData)
+  login(nick: string, email: string, password: string) {
+    const authData: AuthData = {nick: nick, email: email, password: password};
+    this.http.post<{ token: string, expiresIn: number, userId: string, nick: string, email: string }>(BACKEND_URL + '/login', authData)
       .subscribe(response => {
         const token = response.token;
         this.token = token;
@@ -67,12 +72,13 @@ export class AuthService {
           this.isAuthenticated = true;
           this.userId = response.userId;
           this.userEmail = response.email;
+          this.userNick = response.nick;
           // used to inform components about authentication
           this.authStatusListener.next(true);
           // set token expiration time
           const now = new Date();
           const expirationDate = new Date(now.getTime() + expiresInDuration * 1000);
-          this.saveAuthData(token, expirationDate, this.userId, this.userEmail);
+          this.saveAuthData(token, expirationDate, this.userId, this.userNick, this.userEmail);
           // redirect user to main page after login
           this.router.navigate(['/']);
         }
@@ -91,6 +97,7 @@ export class AuthService {
     if (expiresIn) {
       this.token = authInformation.token;
       this.isAuthenticated = true;
+      this.userNick = authInformation.nick;
       this.userId = authInformation.userId;
       this.userEmail = authInformation.email;
       this.setAuthTimer(expiresIn / 1000);
@@ -104,6 +111,7 @@ export class AuthService {
     this.isAuthenticated = false;
     this.authStatusListener.next(false);
     this.userId = null;
+    this.userNick = null;
     clearTimeout(this.tokenTimer);
     this.clearAuthData();
     this.router.navigate(['/']);
@@ -116,10 +124,11 @@ export class AuthService {
   }
 
   // store token data locally
-  private saveAuthData(token: string, expirationDate: Date, userId: string, email: string) {
+  private saveAuthData(token: string, expirationDate: Date, userId: string, nick: string, email: string) {
     localStorage.setItem('token', token);
     localStorage.setItem('expiration', expirationDate.toISOString());
     localStorage.setItem('userId', userId);
+    localStorage.setItem('nick', nick);
     localStorage.setItem('email', email);
   }
 
@@ -127,6 +136,7 @@ export class AuthService {
     localStorage.removeItem('token');
     localStorage.removeItem('expiration');
     localStorage.removeItem('userId');
+    localStorage.removeItem('nick');
     localStorage.removeItem('email');
   }
 
@@ -134,6 +144,7 @@ export class AuthService {
     const token = localStorage.getItem('token');
     const expirationDate = localStorage.getItem('expiration');
     const userId = localStorage.getItem('userId');
+    const userNick = localStorage.getItem('nick');
     const userEmail = localStorage.getItem('email');
     if (!token && !expirationDate) {
       return;
@@ -142,7 +153,8 @@ export class AuthService {
       token: token,
       expirationDate: new Date(expirationDate),
       userId: userId,
+      nick: userNick,
       email: userEmail
-    }
+    };
   }
 }

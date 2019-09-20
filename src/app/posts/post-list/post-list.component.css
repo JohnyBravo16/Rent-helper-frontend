@@ -44,4 +44,18 @@ mat-expansion-panel-header {
   box-shadow: -6px -5px 21px 5px rgba(0,0,0,0.55);
 }
 
+mat-expansion-panel {
+  background-color: rgb(49, 56, 60) !important;
+}
 
+.inner-card {
+  background-color: rgb(49, 56, 60) !important;
+  -webkit-box-shadow: -5px 9px 21px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: -5px 9px 21px 0px rgba(0,0,0,0.75);
+  box-shadow: -5px 9px 21px 0px rgba(0,0,0,0.75);
+}
+
+mat-card-header {
+  width: 100%;
+  margin: auto;
+}

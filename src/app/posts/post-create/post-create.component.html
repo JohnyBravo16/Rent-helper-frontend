@@ -1,6 +1,11 @@
 <mat-card>
   <mat-spinner *ngIf="isLoading"></mat-spinner>
   <form [formGroup]="form" (submit)="onSavePost()" *ngIf="!isLoading">
+    <button
+    matButton
+    (click)="onCheck()">
+    SPRAWDZ
+  </button>
     <mat-form-field>
       <input
         matInput

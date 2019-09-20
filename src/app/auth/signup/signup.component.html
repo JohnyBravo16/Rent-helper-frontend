@@ -4,6 +4,17 @@
       <mat-form-field>
         <input
           matInput
+          name="nick"
+          ngModel
+          placeholder="Nick"
+          type="input"
+          #nickInput="ngModel"
+          required>
+          <mat-error *ngIf="nickInput.invalid">Niepoprawny nick</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input
+          matInput
           name="email"
           ngModel
           placeholder="E-Mail"
