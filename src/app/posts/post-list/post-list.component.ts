@@ -7,6 +7,7 @@ import { PageEvent, MatDialog } from '@angular/material';
 import { AuthService } from 'src/app/auth/auth.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ImageDialogComponent } from 'src/app/image-dialog/image-dialog.component';
 
 @Component({
   selector: 'app-post-list',
@@ -40,7 +41,8 @@ export class PostListComponent implements OnInit, OnDestroy{
   public postsService: PostsService,
   private authService: AuthService,
   public router: Router,
-  public dialog: MatDialog) {}
+  public dialog: MatDialog
+  ) {}
 
   ngOnInit() {
     this.isLoading = true;
@@ -89,6 +91,12 @@ export class PostListComponent implements OnInit, OnDestroy{
     });
   }
 
+  onImageClick(imagePath: string): void {
+    const dialogRef = this.dialog.open(ImageDialogComponent, {
+      data: {imagePath: imagePath}
+    });
+    console.log(imagePath);
+  }
 
   onFilterPosts() {
     if (!this.formSearch.get('searchValue').value) {

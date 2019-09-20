@@ -56,7 +56,7 @@
           </mat-card-content>
           <mat-action-row>
               <div class="post-image">
-                <img [src]="post.imagePath" [alt]="post.title" >
+                <img [src]="post.imagePath" [alt]="post.title" (click)="onImageClick(post.imagePath)">
               </div>
           </mat-action-row>
           <mat-card-actions *ngIf="userIsAuthenticated && userId === post.creator">

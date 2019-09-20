@@ -8,6 +8,8 @@ import { mimeType } from './mime-type.validator';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import { StarRatingComponent } from 'ng-starrating';
+import { MatDialog } from '@angular/material';
+import { ImageDialogComponent } from 'src/app/image-dialog/image-dialog.component';
 
 
 @Component({
@@ -33,6 +35,7 @@ export class PostCreateComponent implements OnInit, OnDestroy{
     public postsService: PostsService,
     public route: ActivatedRoute,
     private authService: AuthService,
+    public dialog: MatDialog
     ) {}
 
   ngOnInit() {
@@ -142,6 +145,12 @@ export class PostCreateComponent implements OnInit, OnDestroy{
     const ratingNumber = $event.newValue;
     this.rating = ratingNumber.toString();
     this.form.get('rating').setValue(this.rating);
+  }
+
+  onImageClick(imagePath: string): void {
+    const dialogRef = this.dialog.open(ImageDialogComponent, {
+      data: {imagePath: imagePath}
+    });
   }
 
   ngOnDestroy() {

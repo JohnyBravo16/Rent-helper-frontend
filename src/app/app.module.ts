@@ -16,13 +16,15 @@ import { RatingModule } from 'ng-starrating';
 
 import { AuthInterceptor } from './auth/auth-interceptor';
 import { ErrorInterceptor } from './error-interceptor';
+import { ImageDialogComponent } from './image-dialog/image-dialog.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    ErrorComponent
+    ErrorComponent,
+    ImageDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -40,6 +42,6 @@ import { ErrorInterceptor } from './error-interceptor';
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true}
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ErrorComponent]
+  entryComponents: [ErrorComponent, ImageDialogComponent]
 })
 export class AppModule { }

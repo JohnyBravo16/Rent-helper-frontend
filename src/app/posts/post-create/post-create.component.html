@@ -1,11 +1,6 @@
 <mat-card>
   <mat-spinner *ngIf="isLoading"></mat-spinner>
   <form [formGroup]="form" (submit)="onSavePost()" *ngIf="!isLoading">
-    <button
-    matButton
-    (click)="onCheck()">
-    SPRAWDZ
-  </button>
     <mat-form-field>
       <input
         matInput
@@ -47,7 +42,7 @@
     <input type="file" #filePicker (change)="onImagePicked($event)">
     <br>
     <div class="image-preview" *ngIf="imagePreview !== '' && imagePreview && form.get('image').valid">
-      <img [src]="imagePreview" alt="form.value.title">
+      <img [src]="imagePreview" alt="form.value.title" (click)="onImageClick(imagePreview)">
     </div>
       <button mat-raised-button color="primary" type="submit" margin:50px>
         Dodaj post
