@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://rent-helper.eu-west-2.elasticbeanstalk.com/api'
+  apiUrl: 'https://enigmatic-tundra-60416.herokuapp.com/api'
 };
